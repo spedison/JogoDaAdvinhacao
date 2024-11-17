@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'br.com.spedison'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+// Compile with all options of JDK 22.
+compileJava {
+    options.release = 22
+}
+
+dependencies {
+    implementation 'org.eclipse.jetty:jetty-server:11.0.15'
+    implementation 'org.eclipse.jetty:jetty-servlet:11.0.15'
+    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+
+    implementation 'org.slf4j:jul-to-slf4j:2.0.9'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass.set("br.com.spedison.Main")  // No Kotlin, o setter usa a fun��o set()
+}
+
+def libsDir = file(layout.buildDirectory.file("libs"))
+tasks.register('copyDependencies', Copy) {
+    dependsOn(build)
+    from configurations.runtimeClasspath
+    into libsDir
+}
+
+jar {
+
+    from sourceSets.main.output
+
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass,  // Substitua pelo nome completo da sua classe principal
+                'Class-Path': configurations.runtimeClasspath.files.collect { it.name }.join(' ')
+        )
+    }
+}
+
+tasks.register("defaultTask"){
+    dependsOn clean, copyDependencies
+}
+
+defaultTasks "defaultTask"
