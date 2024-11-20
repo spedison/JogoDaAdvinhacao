@@ -60,3 +60,71 @@ tasks.register("defaultTask"){
 }
 
 defaultTasks "defaultTask"
+
+
+
+tasks.register('runServer', JavaExec) {
+    group = 'application'
+    description = 'Roda o servidor para localizar o número'
+
+    // Defina a classe principal do seu projeto
+    mainClass.set(application.mainClass)
+
+    // Lê os parâmetros do arquivo e os define como argumentos
+    args = ['server', 'http://localhost:8080']
+
+    println(args)
+
+    // Se precisar configurar o classpath, use:
+    classpath = sourceSets.main.runtimeClasspath
+
+    // Configuração do diretório de trabalho
+    workingDir = file(projectDir)
+
+    // Configuração dos parâmetros de memória
+    //jvmArgs '-Xms512m', '-Xmx2g' // Xms para definir a memória inicial, Xmx para definir a memória máxima
+}
+
+tasks.register('runClientB', JavaExec) {
+    group = 'application'
+    description = 'Roda o client apontando para o Servidor e advinhando o número.'
+
+    // Defina a classe principal do seu projeto
+    mainClass.set(application.mainClass)
+
+    // Lê os parâmetros do arquivo e os define como argumentos
+    args = ['binario', 'http://localhost:8080', '10000']
+
+    println(args)
+
+    // Se precisar configurar o classpath, use:
+    classpath = sourceSets.main.runtimeClasspath
+
+    // Configuração do diretório de trabalho
+    workingDir = file(projectDir)
+
+    // Configuração dos parâmetros de memória
+    //jvmArgs '-Xms512m', '-Xmx2g' // Xms para definir a memória inicial, Xmx para definir a memória máxima
+}
+
+tasks.register('runClientC', JavaExec) {
+    group = 'application'
+    description = 'Roda o client apontando para o Servidor e advinhando o número.'
+
+    // Defina a classe principal do seu projeto
+    mainClass.set(application.mainClass)
+
+    // Lê os parâmetros do arquivo e os define como argumentos
+    args = ['sequencial', 'http://localhost:8080', '10000']
+
+    println(args)
+
+    // Se precisar configurar o classpath, use:
+    classpath = sourceSets.main.runtimeClasspath
+
+    // Configuração do diretório de trabalho
+    workingDir = file(projectDir)
+
+    // Configuração dos parâmetros de memória
+    //jvmArgs '-Xms512m', '-Xmx2g' // Xms para definir a memória inicial, Xmx para definir a memória máxima
+}

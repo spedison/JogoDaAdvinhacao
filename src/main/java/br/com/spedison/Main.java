@@ -13,7 +13,7 @@ public class Main {
         /***
          * 0 - comando server,binario,sequencial.
          * 1 - nome do servidor com porta exemplo : http://localhost:8080
-         * 3 - para cliente max, para server nao tem.
+         * 2 - para cliente max, para server nao tem.
          */
 
         ConfiguracaoURL.protocoloEHost = args[1];
